@@ -1,24 +1,122 @@
-# Compiled class file
-*.class
+public class CalculaIMC {
+    public static double calcularIMC(double peso, double altura) {
+        return peso / (altura * altura);
+    }
 
-# Log file
-*.log
+    public static String categorizarIMC(double imc) {
+        if (imc < 18.5) {
+            return "Baixo peso";
+        } else if (imc < 24.9) {
+            return "Peso adequado";
+        } else if (imc < 29.9) {
+            return "Sobrepeso";
+        } else {
+            return "Obesidade";
+        }
+    }
+}
 
-# BlueJ files
-*.ctxt
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
 
-# Package Files #
-*.jar
-*.war
-*.nar
-*.ear
-*.zip
-*.tar.gz
-*.rar
+import java.util.ArrayList;
+import java.util.Scanner;
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-replay_pid*
+class Pessoa {
+    private String nome;
+    private double peso;
+    private double altura;
+    private String endereco;
+    private String cep;
+    private int idade;
+    private String telefone;
+    private String estado;
+    private String cpf;
+    private String rg;
+
+ 
+    public Pessoa(String nome, double peso, double altura, String endereco, String cep, int idade, String telefone, String estado, String cpf, String rg) {
+        this.nome = nome;
+        this.peso = peso;
+        this.altura = altura;
+        this.endereco = endereco;
+        this.cep = cep;
+        this.idade = idade;
+        this.telefone = telefone;
+        this.estado = estado;
+        this.cpf = cpf;
+        this.rg = rg;
+    }
+
+    public String getNome() { return nome; }
+    public double getPeso() { return peso; }
+    public double getAltura() { return altura; }
+    public String getEndereco() { return endereco; }
+    public String getCep() { return cep; }
+    public int getIdade() { return idade; }
+    public String getTelefone() { return telefone; }
+    public String getEstado() { return estado; }
+    public String getCpf() { return cpf; }
+    public String getRg() { return rg; }
+}
+
+public class Principal {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        ArrayList<Pessoa> pessoas = new ArrayList<>();
+
+        while (true) {
+            System.out.println("Escolha uma opção:");
+            System.out.println("1. Cadastrar Pessoa");
+            System.out.println("2. Mostrar todas as pessoas cadastradas");
+            System.out.println("3. Sair");
+            int opcao = scanner.nextInt();
+            scanner.nextLine(); 
+
+            if (opcao == 1) {
+                System.out.println("Digite o nome:");
+                String nome = scanner.nextLine();
+                System.out.println("Digite o peso (kg):");
+                double peso = scanner.nextDouble();
+                System.out.println("Digite a altura (m):");
+                double altura = scanner.nextDouble();
+                scanner.nextLine(); // Consumir a nova linha
+                System.out.println("Digite o endereço:");
+                String endereco = scanner.nextLine();
+                System.out.println("Digite o CEP:");
+                String cep = scanner.nextLine();
+                System.out.println("Digite a idade:");
+                int idade = scanner.nextInt();
+                scanner.nextLine(); // Consumir a nova linha
+                System.out.println("Digite o telefone:");
+                String telefone = scanner.nextLine();
+                System.out.println("Digite o estado:");
+                String estado = scanner.nextLine();
+                System.out.println("Digite o CPF:");
+                String cpf = scanner.nextLine();
+                System.out.println("Digite o RG:");
+                String rg = scanner.nextLine();
+
+                Pessoa pessoa = new Pessoa(nome, peso, altura, endereco, cep, idade, telefone, estado, cpf, rg);
+                pessoas.add(pessoa);
+
+                double imc = CalculaIMC.calcularIMC(peso, altura);
+                String categoria = CalculaIMC.categorizarIMC(imc);
+
+                System.out.printf("Nome: %s, IMC: %.2f, Categoria: %s%n", nome, imc, categoria);
+            } else if (opcao == 2) {
+                for (Pessoa pessoa : pessoas) {
+                    double imc = CalculaIMC.calcularIMC(pessoa.getPeso(), pessoa.getAltura());
+                    String categoria = CalculaIMC.categorizarIMC(imc);
+                    System.out.printf("Nome: %s, Endereço: %s, CEP: %s, Idade: %d, Telefone: %s, Estado: %s, CPF: %s, RG: %s, Peso: %.2f, Altura: %.2f, IMC: %.2f, Categoria: %s%n",
+                            pessoa.getNome(), pessoa.getEndereco(), pessoa.getCep(), pessoa.getIdade(), pessoa.getTelefone(), pessoa.getEstado(), pessoa.getCpf(), pessoa.getRg(), pessoa.getPeso(), pessoa.getAltura(), imc, categoria);
+                }
+            } else if (opcao == 3) {
+                break;
+            } else {
+                System.out.println("Opção inválida!");
+            }
+        }
+
+        scanner.close();
+    }
+}
